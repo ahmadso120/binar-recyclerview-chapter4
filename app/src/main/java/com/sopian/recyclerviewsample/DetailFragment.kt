@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.navArgs
+import com.sopian.recyclerviewsample.databinding.FragmentDetailBinding
+import com.sopian.recyclerviewsample.databinding.FragmentListBinding
 
 class DetailFragment : Fragment() {
+
+    private var _binding: FragmentDetailBinding? = null
+    private val binding = _binding!!
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -16,17 +21,21 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val name = view.findViewById<TextView>(R.id.name_text_view)
-        val phone = view.findViewById<TextView>(R.id.phone_text_view)
+        with(binding) {
+            nameTextView.text = args.user.name
+            phoneTextView.text = args.user.phone.toString()
+        }
+    }
 
-        name.text = args.user.name
-        phone.text = args.user.phone.toString()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
